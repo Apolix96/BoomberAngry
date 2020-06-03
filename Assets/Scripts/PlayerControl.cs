@@ -12,23 +12,43 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float jumpForce = 100f;
     [SerializeField] private float moveInput;
-   
+
+    private Animator anim;
 
     private bool facingRight = true;
-    
 
+    public bool isGrounded;
+    public Transform groundCheck;
 
+    public float checkRadius;
+    public LayerMask whatIsGround;
+
+   
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         bx2 = GetComponent<BoxCollider2D>();
+        anim = GetComponent<Animator>();
+    }
+
+    bool isActiveAnimator()
+    {
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     void movementPlayer()
     {
         moveInput = Input.GetAxis("Horizontal");
-        rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
+        anim.SetBool("isRunning", true) ;
+        transform.Translate(transform.right * moveInput * speed * Time.fixedDeltaTime);
 
         if (facingRight == false && moveInput > 0)
         {
@@ -52,20 +72,30 @@ public class PlayerControl : MonoBehaviour
         rb.velocity = Vector2.up * jumpForce;
     }
 
-    private bool isGrounded()
+    private void FixedUpdate()
     {
-        RaycastHit2D rc2D = Physics2D.BoxCast(bx2.bounds.center, bx2.bounds.size, 0f, Vector2.down * .1f, layerMask);
-        return rc2D.collider != null;
-    }
-
-    private void Update()
-    {
-        if (isGrounded() && Input.GetKeyDown(KeyCode.Space))
-        {
-            JumpPlayer();
-        }
+        
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
         movementPlayer();
     }
-   
+    private void Update()
+    {
+        if (isActiveAnimator())
+        {
+            movementPlayer();
+        }
+        else
+        {
+            anim.SetBool("isRunning", false);
+        }
+        if (isGrounded == true)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                JumpPlayer();
+            }
+        }
 
+       
+    }
 }
