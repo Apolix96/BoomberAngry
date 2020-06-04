@@ -11,6 +11,8 @@ public class BombController : MonoBehaviour
     private float destroyTime;
     [SerializeField]
     private GameObject explosionPrefab;
+
+    [SerializeField] private int damage  = 1;
    
     // Start is called before the first frame update
     void Start()
@@ -42,6 +44,21 @@ public class BombController : MonoBehaviour
             var rot = transform.rotation;
             var exsplosion = Instantiate(explosionPrefab, pos, rot);
             Destroy(exsplosion, 1f);
+        }
+    }
+
+    public void AttackBomb()
+    {
+        var g = GetComponent<ControlGame>();
+        g.Damage(damage);
+    }
+
+    public void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.gameObject.tag == "Player")
+        {
+            Debug.Log("БУУУУУУУУМ");
+            AttackBomb();
         }
     }
 }

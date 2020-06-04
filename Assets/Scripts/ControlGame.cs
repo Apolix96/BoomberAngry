@@ -11,10 +11,15 @@ public class ControlGame : MonoBehaviour
     private Rigidbody2D rb;
     [SerializeField] private int direction;
 
+    // отнятие здоровья
+    private HeathManager healthManager;
+
+
     private void Start()
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        healthManager = GetComponent<HeathManager>();
     }
     private void Update()
     {
@@ -35,7 +40,7 @@ public class ControlGame : MonoBehaviour
     }
     public void ChangeDirection(int buttonDirection)
     {
-        print("DIRECTION: " + direction);
+       
         direction = buttonDirection;
     }
     private void Flip()
@@ -47,14 +52,25 @@ public class ControlGame : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D other)
     {
-        Debug.Log("Stay");
+       
         if (other.gameObject.tag == "ground")
             ground = true;
     }
     private void OnTriggerExit2D(Collider2D other)
     {
-        Debug.Log("exit");
+        
         if (other.gameObject.tag == "ground")
             ground = false;
+    }
+
+
+    public void Damage(int damage)
+    {
+        healthManager.healthControl -= damage;
+        healthManager.UpdateHealth();
+        if(healthManager.healthControl <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 }
