@@ -29,17 +29,19 @@ public class BombController : MonoBehaviour
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
-    { 
+    {
         renderer.material.DOColor(Color.red, destroyTime).OnComplete(createExplosion);
-        Destroy(gameObject, destroyTime);
+        Destroy(gameObject, destroyTime);        
     }
 
     private void createExplosion()
     {
-        var pos = transform.position;
-        var rot = transform.rotation;
-        var exsplosion = Instantiate(explosionPrefab, pos, rot);
-        exsplosion.transform.position = pos;
-        Destroy(exsplosion, 1f);
+        if (renderer != null)
+        {
+            var pos = transform.position;
+            var rot = transform.rotation;
+            var exsplosion = Instantiate(explosionPrefab, pos, rot);
+            Destroy(exsplosion, 1f);
+        }
     }
 }
