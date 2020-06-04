@@ -9,6 +9,8 @@ public class BombController : MonoBehaviour
     private new Renderer renderer;
     [SerializeField]
     private float destroyTime;
+    [SerializeField]
+    private GameObject explosionPrefab;
    
     // Start is called before the first frame update
     void Start()
@@ -28,7 +30,18 @@ public class BombController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Destroy(gameObject, destroyTime);
-        renderer.material.DOColor(Color.red, destroyTime);
+        renderer.material.DOColor(Color.red, destroyTime).OnComplete(createExplosion);
+        Destroy(gameObject, destroyTime);        
+    }
+
+    private void createExplosion()
+    {
+        if (renderer != null)
+        {
+            var pos = transform.position;
+            var rot = transform.rotation;
+            var exsplosion = Instantiate(explosionPrefab, pos, rot);
+            Destroy(exsplosion, 1f);
+        }
     }
 }
