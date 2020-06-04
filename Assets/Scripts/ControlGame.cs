@@ -19,7 +19,7 @@ public class ControlGame : MonoBehaviour
     private void Update()
     {
         rb.velocity = new Vector2(direction * speed, rb.velocity.y);
-        if (direction != 0)
+        if (direction == 0)
             anim.SetBool("isRunning", true);
         else if (direction == 0)
             anim.SetBool("isRunnig", false);
