@@ -36,6 +36,7 @@ public class BombController : MonoBehaviour
         if (col.gameObject.tag == "ground" && gameObject.tag == "Untagged")
         {
             renderer.material.DOColor(Color.red, destroyTime).OnComplete(createExplosion);
+
             Destroy(gameObject, destroyTime);
             gameObject.tag = "Respawn";
         }  
@@ -48,6 +49,7 @@ public class BombController : MonoBehaviour
             var pos = transform.position;
             var rot = transform.rotation;
             var exsplosion = Instantiate(explosionPrefab, pos, rot);
+            Camera.main.transform.DOShakePosition(0.5f, 1f, 10, 90, false, true);
             Destroy(exsplosion, 0.3f);
         }
     }
