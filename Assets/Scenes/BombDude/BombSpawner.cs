@@ -6,10 +6,14 @@ public class BombSpawner : MonoBehaviour
 {
     public GameObject BombPrefab;
     public GameObject SpawnerParrent;
+    public GameObject Heart;
+    private int randomSpawn;
     private float timer;
     public float RateOfFire;
     [SerializeField]
     private bool canSpawn;
+
+    
     // Start is called before the first frame update
     void Update()
     {
@@ -19,8 +23,19 @@ public class BombSpawner : MonoBehaviour
         {
             var pos = SpawnerParrent.transform.position;
             var rot = transform.rotation;
-            var Bomb = Instantiate(BombPrefab, pos, rot);
-            Bomb.transform.position = pos;
+            randomSpawn = Random.Range(0, 10);
+            if(randomSpawn == 1)
+            {
+                var heart = Instantiate(Heart, pos, rot);
+                heart.transform.position = pos;
+            }
+            else
+            {
+                var Bomb = Instantiate(BombPrefab, pos, rot);
+                Bomb.transform.position = pos;
+            }
+            
+            
             timer = RateOfFire;
         }
     }

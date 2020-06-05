@@ -19,6 +19,7 @@ public class BombController : MonoBehaviour
     {
         rb2D = gameObject.GetComponent<Rigidbody2D>();
         Physics2D.IgnoreLayerCollision(gameObject.layer, gameObject.layer, true);
+        Physics2D.IgnoreLayerCollision(gameObject.layer, explosionPrefab.layer, true);
         int force = Random.Range(3,15);
         rb2D.AddForce(transform.right * -force, ForceMode2D.Impulse);
         renderer = gameObject.GetComponent<Renderer>();  
@@ -32,12 +33,12 @@ public class BombController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.tag == "ground")
+        if (col.gameObject.tag == "ground" && gameObject.tag == "Untagged")
         {
-            Debug.Log("коснулся;D");
             renderer.material.DOColor(Color.red, destroyTime).OnComplete(createExplosion);
             Destroy(gameObject, destroyTime);
-        }
+            gameObject.tag = "Respawn";
+        }  
     }
 
     private void createExplosion()
@@ -47,9 +48,7 @@ public class BombController : MonoBehaviour
             var pos = transform.position;
             var rot = transform.rotation;
             var exsplosion = Instantiate(explosionPrefab, pos, rot);
-            Destroy(exsplosion, 1f);
+            Destroy(exsplosion, 0.3f);
         }
     }
-
-    
 }
