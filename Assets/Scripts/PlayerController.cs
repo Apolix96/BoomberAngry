@@ -2,10 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class PlayerController : MonoBehaviour
 {
     public float horizontalSpeed;
+    private new Renderer renderer;
+    private Color defaultColor;
     private Animator anim;
     float speedX;
     public float JumpImpulse;
@@ -21,9 +24,11 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        renderer = GetComponent<Renderer>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         healthManager = GetComponent<HeathManager>();
+        defaultColor = renderer.material.color;
     }
 
     public void Walk()
@@ -43,20 +48,16 @@ public class PlayerController : MonoBehaviour
    {
         speedX = 0;
         anim.SetBool("isRunning", false);
-    }
+   }
 
     void FixedUpdate()
     {
-       
         transform.Translate(speedX, 0, 0);
-       
         Flip();
     }
 
     public void ChangeDirection(int buttonDirection)
     {
-
-
         direction = buttonDirection;
     }
     private void Flip()
@@ -84,21 +85,36 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.tag == "Bomb")
         {
+            other.gameObject.tag = "Untagged";
             Damage(1);
-
+            renderer.material.DOColor(Color.blue,0.2f).OnComplete(test);
         }
-
+        if(other.gameObject.tag == "Heart")
+        {
+            AddHealth(1);
+            Destroy(other.gameObject);
+        }
     }
 
 
+    private void test()
+    {
+        if(renderer.material!=null)
+            renderer.material.DOColor(defaultColor, 0.2f);
+    }
+
     public void Damage(int damage)
     {
-        
         healthManager.healthControl -= damage;
         healthManager.UpdateHealth();
         if (healthManager.healthControl <= 0)
         {
             Destroy(gameObject);
         }
+    }
+    public void AddHealth(int hf)
+    {
+        healthManager.healthControl += hf;
+        healthManager.UpdateHealth();
     }
 }
