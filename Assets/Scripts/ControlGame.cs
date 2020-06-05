@@ -13,7 +13,7 @@ public class ControlGame : MonoBehaviour
 
     // отнятие здоровья
     private HeathManager healthManager;
-
+    private BombController bomich;
 
     private void Start()
     {
@@ -63,9 +63,21 @@ public class ControlGame : MonoBehaviour
             ground = false;
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.gameObject.tag == "Bomb")
+        {
+            
+            Damage(1);
+
+        }
+        
+    }
+
 
     public void Damage(int damage)
     {
+        Debug.Log("Отняли жизнь у игрока =(");
         healthManager.healthControl -= damage;
         healthManager.UpdateHealth();
         if(healthManager.healthControl <= 0)

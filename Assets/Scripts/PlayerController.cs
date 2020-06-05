@@ -6,7 +6,6 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float horizontalSpeed;
-    [SerializeField]
     private Animator anim;
     float speedX;
     public float JumpImpulse;

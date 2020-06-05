@@ -13,8 +13,7 @@ GameObject:
   - component: {fileID: 3745236651315838487}
   - component: {fileID: 3745236651315838486}
   - component: {fileID: 3745236651315838481}
-  - component: {fileID: 4653195241942752546}
-  - component: {fileID: 1703013126706167097}
+  - component: {fileID: 4181323784182651626}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Untagged
@@ -147,26 +146,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   horizontalSpeed: 0.1
-  anim: {fileID: 1703013126706167097}
   JumpImpulse: 10
   isGrounded: 0
   direction: 0
---- !u!114 &4653195241942752546
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3745236651315838506}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27cbc5f8a2e096a4fb9131b799f03cc2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthControl: 0
-  healthImage: []
-  healthSprite: []
---- !u!95 &1703013126706167097
+--- !u!95 &4181323784182651626
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 0
@@ -176,7 +159,7 @@ Animator:
   m_GameObject: {fileID: 3745236651315838506}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b236175fd5b29144c958b16e2eb15231, type: 2}
+  m_Controller: {fileID: 9100000, guid: a5ff3e3efc923d0419106c22bc58a7dd, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
