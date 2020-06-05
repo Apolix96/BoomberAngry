@@ -12,7 +12,7 @@ public class BombController : MonoBehaviour
     [SerializeField]
     private GameObject explosionPrefab;
 
-    [SerializeField] private int damage  = 1;
+    public int damage  = 1;
    
     // Start is called before the first frame update
     void Start()
@@ -30,10 +30,14 @@ public class BombController : MonoBehaviour
         
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D col)
     {
-        renderer.material.DOColor(Color.red, destroyTime).OnComplete(createExplosion);
-        Destroy(gameObject, destroyTime);        
+        if (col.gameObject.tag == "ground")
+        {
+            Debug.Log("коснулся;D");
+            renderer.material.DOColor(Color.red, destroyTime).OnComplete(createExplosion);
+            Destroy(gameObject, destroyTime);
+        }
     }
 
     private void createExplosion()
@@ -47,18 +51,5 @@ public class BombController : MonoBehaviour
         }
     }
 
-    public void AttackBomb()
-    {
-        var g = GetComponent<ControlGame>();
-        g.Damage(damage);
-    }
-
-    public void OnTriggerEnter2D(Collider2D other)
-    {
-        if(other.gameObject.tag == "Player")
-        {
-            Debug.Log("БУУУУУУУУМ");
-            AttackBomb();
-        }
-    }
+    
 }
