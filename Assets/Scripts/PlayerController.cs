@@ -21,7 +21,8 @@ public class PlayerController : MonoBehaviour
     // отнятие здоровья
     private HeathManager healthManager;
     private BombController bomich;
-
+    [SerializeField]
+    private Camera camera;
     void Start()
     {
         renderer = GetComponent<Renderer>();
@@ -29,6 +30,8 @@ public class PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();
         healthManager = GetComponent<HeathManager>();
         defaultColor = renderer.material.color;
+        
+        
     }
 
     public void Walk()
@@ -109,7 +112,12 @@ public class PlayerController : MonoBehaviour
         healthManager.UpdateHealth();
         if (healthManager.healthControl <= 0)
         {
+           
+            var p = camera.GetComponent<PauseScript>();
+            p.Pause();
+            p.ReloadPauseGameDestroyObject();
             Destroy(gameObject);
+           
         }
     }
     public void AddHealth(int hf)

@@ -6,13 +6,23 @@ using UnityEngine.SceneManagement;
 public class PauseScript : MonoBehaviour
 {
     public GameObject panelPause;
+    private void Start()
+    {
+        Pause();
+    }
 
-   public void Pause()
-   {
+    public void Pause()
+    {
         panelPause.SetActive(true);
         Time.timeScale = 0;
-   }
+    }
 
+    public void ReloadPauseGameDestroyObject()
+    {
+        SceneManager.LoadScene("SampleScene");
+
+    }
+   
     public void OffPause()
     {
         panelPause.SetActive(false);

@@ -47,6 +47,7 @@ public class BombController : MonoBehaviour
         {
             var pos = transform.position;
             var rot = transform.rotation;
+            Camera.main.transform.DOShakePosition(0.5f, 1f, 10, 90, false, true);
             var exsplosion = Instantiate(explosionPrefab, pos, rot);
             Destroy(exsplosion, 0.3f);
         }
