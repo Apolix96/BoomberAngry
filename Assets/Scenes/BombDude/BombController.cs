@@ -34,7 +34,8 @@ public class BombController : MonoBehaviour
     {
         if (col.gameObject.tag == "ground")
         {
-            Debug.Log("коснулся;D");
+
+           
             renderer.material.DOColor(Color.red, destroyTime).OnComplete(createExplosion);
             Destroy(gameObject, destroyTime);
         }

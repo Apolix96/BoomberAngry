@@ -14,10 +14,16 @@ public class PlayerController : MonoBehaviour
     bool isGrounded;
     [SerializeField] private int direction;
     // Start is called before the first frame update
+
+    // отнятие здоровья
+    private HeathManager healthManager;
+    private BombController bomich;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        healthManager = GetComponent<HeathManager>();
     }
 
     public void Walk()
@@ -49,7 +55,8 @@ public class PlayerController : MonoBehaviour
 
     public void ChangeDirection(int buttonDirection)
     {
-        print("DIRECTION: " + direction);
+
+
         direction = buttonDirection;
     }
     private void Flip()
@@ -60,19 +67,38 @@ public class PlayerController : MonoBehaviour
             transform.localRotation = Quaternion.Euler(0, 180, 0);
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
+    private void OnTriggerStay2D(Collider2D other)
     {
-        if(collision.gameObject.tag == "ground")
-        {
-            isGrounded = true;
-        }
+
+        if (other.gameObject.tag == "ground")
+            isGrounded= true;
+    }
+    private void OnTriggerExit2D(Collider2D other)
+    {
+
+        if (other.gameObject.tag == "ground")
+            isGrounded = false;
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (collision.gameObject.tag == "ground")
+        if (other.gameObject.tag == "Bomb")
         {
-            isGrounded = false;
+            Damage(1);
+
+        }
+
+    }
+
+
+    public void Damage(int damage)
+    {
+        
+        healthManager.healthControl -= damage;
+        healthManager.UpdateHealth();
+        if (healthManager.healthControl <= 0)
+        {
+            Destroy(gameObject);
         }
     }
 }
